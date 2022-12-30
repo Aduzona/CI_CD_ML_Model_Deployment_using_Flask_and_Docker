@@ -35,7 +35,7 @@ We will create an API then we will deploy it using Docker.
 * REST in RESTApi stands for REpresentational State Transfer. A set of rules that programmers follow while developing the API.
 * Each URL of an API should contain data that is sent (request) and the data that we get back from API is callsed response.
 
-
+build flask api in deploy folder, app.py
 
 ## Docker
 
@@ -94,7 +94,7 @@ Now compare both
 Ensure Flask, docker and postman are installed.
 
 * check enviroment list `conda env list`
-* create environment with conda `conda create -n breast_cancer python=3.7`
+* create environment with conda `conda create -n breast_cancer python=3.9.13` . Use python version in your system for testing. 
 * See the list again `conda env list`
 * Activate the environment `conda activate breast_cancer`
 * If  error, initialize your shell name e.g on:
@@ -118,4 +118,56 @@ Ensure Flask, docker and postman are installed.
 import joblib
 
 model=joblib.load('model.pkl')
+
+import pandas as pd
+
+new_df = pd.read_csv("breast_cancer.csv")
+new_df['target']=new_df['target'].astype(int)
+
+#Predict the last row
+data=new_df.drop('target',axis=1)#remove target column
+data=data.iloc[-1:,:]# get last row and all columns
+pred = model.predict(data)
+
+#compare predictions
+pred#predicted
+new_df.iloc[-1,30:]#Actual
+
 ```
+**Folder Structure**
+
+deploy
+    -app.py
+    -Dockerfile
+Notebook
+    -breast_cancer.csv
+    -Cancer_prediction.ipynb
+    -model.pkl
+    -test.ipynb
+Makefile
+README.md
+request.json
+requirements.txt
+
+request.json is a contains sample of data parsed to the `app.py` to read.
+```py
+req = request.get_json()
+input_data = req['data']
+```
+see `app.py` for more details
+
+
+## Deploy test
+
+Because we installed Jupyter notebook in the previous environements, and other unnecessary libraries where installed.we will create new environment in the deploy folder.
+* create a new environment `conda create -n deploy python=3.9.13`
+* Activate the environment `conda activate deploy`
+* Install required libraries `pip install pandas sklearn flask joblib`
+* list installed libraries `conda list`
+* run the server `python app.py`
+* Access the url ``
+* Press `CTRL+c` to quit
+## References
+
+* [ML Dev with Flask and Docker](https://www.youtube.com/watch?v=2X-L9w68898&ab_channel=BoardInfinity)
+* [ML Dev with Flask and Docker2](https://github.com/shreyas219/breast_cancer_classification)
