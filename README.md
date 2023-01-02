@@ -146,6 +146,18 @@ Ensure Flask, docker and postman are installed.
 * Install jupyter notebook `pip install jupyter notebook`
 * Start jupyter notebook `jupyter notebook`
 
+**Deploy test**
+
+Because we installed Jupyter notebook in the previous environements, and other unnecessary libraries where installed.we will create new environment in the deploy folder.
+* create a new environment `conda create -n deploy python=3.9.13`
+* Activate the environment `conda activate deploy`
+* Install required libraries `pip install pandas sklearn flask joblib`
+* list installed libraries `conda list`
+* run the server `python app.py`
+* Access the url ``
+* Press `CTRL+c` to quit
+
+
 ### Using Saved Model for prediction
 
 * create and save model model using `Cancer_prediction.ipynb`
@@ -218,17 +230,6 @@ input_data = req['data']
 ```
 see `app.py` for more details
 
-
-## Deploy test
-
-Because we installed Jupyter notebook in the previous environements, and other unnecessary libraries where installed.we will create new environment in the deploy folder.
-* create a new environment `conda create -n deploy python=3.9.13`
-* Activate the environment `conda activate deploy`
-* Install required libraries `pip install pandas sklearn flask joblib`
-* list installed libraries `conda list`
-* run the server `python app.py`
-* Access the url ``
-* Press `CTRL+c` to quit
 ## References
 
 * [ML Dev with Flask and Docker](https://www.youtube.com/watch?v=2X-L9w68898&ab_channel=BoardInfinity)
