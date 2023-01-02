@@ -91,6 +91,40 @@ Now compare both
 
 ## Hands-on
 
+### Using Python environment
+
+* Create and activate environment (using Powershell in vscode)
+  
+  ```
+  python3 -m venv venv
+  .\\venv\\Scripts\\Activate
+  ```
+
+* create `requirements.txt` add libraries and run it.
+  
+  ```
+  pylint==2.15.8
+  pytest==7.2.0
+  black==22.12.0
+  pytest-cov==4.0.0
+  pandas==1.5.2
+  scikit-learn
+  matplotlib==3.6.2
+  seaborn==0.12.2
+  Flask==2.2.2
+  joblib==1.2.0
+  jupyterlab==3.5.2
+  ```
+
+```
+  pip install -r requirements.txt
+```
+* run `jupyter lab`, jupyter lab opens.
+* run the python notebook.
+
+
+### Using conda
+
 Ensure Flask, docker and postman are installed.
 
 * check enviroment list `conda env list`
@@ -112,28 +146,56 @@ Ensure Flask, docker and postman are installed.
 * Install jupyter notebook `pip install jupyter notebook`
 * Start jupyter notebook `jupyter notebook`
 
-**Using Saved Model for prediction**
+### Using Saved Model for prediction
 
-```py
-import joblib
+* create and save model model using `Cancer_prediction.ipynb`
+* create a deploy folder `deploy`:
+  * add `__init__.py`, `model.pkl`
+  * create flask `app.py`
+* run in powershell `python app.py`
+* open postman and create a post request and test the api.
 
-model=joblib.load('model.pkl')
-
-import pandas as pd
-
-new_df = pd.read_csv("breast_cancer.csv")
-new_df['target']=new_df['target'].astype(int)
-
-#Predict the last row
-data=new_df.drop('target',axis=1)#remove target column
-data=data.iloc[-1:,:]# get last row and all columns
-pred = model.predict(data)
-
-#compare predictions
-pred#predicted
-new_df.iloc[-1,30:]#Actual
-
+```json
+{
+    "data": [
+        {
+            "mean radius": 10.16,
+            "mean texture": 19.59,
+            "mean perimeter": 64.73,
+            "mean area": 311.7,
+            "mean smoothness": 0.1003,
+            "mean compactness": 0.07504,
+            "mean concavity": 0.005025,
+            "mean concave points": 0.01116,
+            "mean symmetry": 0.1791,
+            "mean fractal dimension": 0.06331,
+            "radius error": 0.2441,
+            "texture error": 2.09,
+            "perimeter error": 1.648,
+            "area error": 16.8,
+            "smoothness error": 0.01291,
+            "compactness error": 0.02222,
+            "concavity error": 0.004174,
+            "concave points error": 0.007082,
+            "symmetry error": 0.02572,
+            "fractal dimension error": 0.002278,
+            "worst radius": 10.65,
+            "worst texture": 22.88,
+            "worst perimeter": 67.88,
+            "worst area": 347.3,
+            "worst smoothness": 0.1265,
+            "worst compactness": 0.12,
+            "worst concavity": 0.01005,
+            "worst concave points": 0.02232,
+            "worst symmetry": 0.2262,
+            "worst fractal dimension": 0.06742
+        }
+    ]
+}
 ```
+
+![Postman](images/Postman_flask_ML.png)
+
 **Folder Structure**
 
 deploy
