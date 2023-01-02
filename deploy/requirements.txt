@@ -1,0 +1,4 @@
+pandas==1.5.2
+scikit-learn
+Flask==2.2.2
+joblib==1.2.0

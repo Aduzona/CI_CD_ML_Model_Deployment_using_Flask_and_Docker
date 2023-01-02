@@ -230,6 +230,47 @@ input_data = req['data']
 ```
 see `app.py` for more details
 
+## Running Docker
+
+* Create a `Dockerfile` in `deploy` directory
+* Pull a python image from docker hub, use the py version used in development.
+  ```
+  From python:3.10.9
+  ```
+* Create a work directory called app: `WORKDIR /app`
+* Copy all the contents in deploy folder into app folder  `COPY . /app`
+* Run the command `pip install -r requirements.txt`
+* Entrypoint is `ENTRYPOINT ["python"]`  
+* And cmd is `CMD ["app.py"]`.
+* so combination of both with run `python app.py`
+
+* Check `docker version`.
+* Check containers running `docker ps -a`
+* get list of images on docker engine `docker images`
+
+**Build an image**
+
+go to deploy docker_folder.
+* build an image from this deploy_docker, -t tag the image breast_cancer_class 1.0 is my version`docker build -t breast_cancer_class:1.0 .`
+  * `.` dot searches in the folder for dockerfile
+* Then run container docker run (run an image, give some port number -p 5000:3000 same port number mentioned in our app.py then image name and version)`docker run -p 5000:3000 breast_cancer_class:1.0`
+* But  we can't access it through port 3000 because we have maped port 3000 to docker containers port 5000.
+* We can now test this by running `http://localhost:5000/predict` in postman.
+
+![Docker running](images/Docker_running.png)
+![Flask ML Postman and Docker](images/flask_ml_in_Docker.png)
+
+**Another way to start a container**
+
+![vscode terminal](images/vscode_terminal.png)
+
+* Stop container from running ctrl+c
+* `docker ps `
+* remove container by giving few characters of the container `docker rm -f c047`
+* Start up docker again `docker run -d -p 5000:3000 breast_cancer_class:1.0`
+
+You can also push this to AWS.
+
 ## References
 
 * [ML Dev with Flask and Docker](https://www.youtube.com/watch?v=2X-L9w68898&ab_channel=BoardInfinity)
